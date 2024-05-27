@@ -15,16 +15,17 @@ const config = {
 export default function MyGlobe() {
 
     const [cities, setCities] = useState([])
-
-    const [tripName, setTripName] = useState("");
-    const [userName, setUserName] = useState<string>();
-    const [tripDescription, setTripDescription] = useState("");
-
     const [users, setUsers] = useState<User[]>([])
+
+    const [userId, setUserId] = useState<number>();
+    const [tripName, setTripName] = useState("");
+    const [tripDescription, setTripDescription] = useState("");
 
     useEffect(() => {
 
         console.log("Fetching users at localhost:8080")
+
+        // todo: i think the first entry has to be the "select ur user"
 
         axios.get('http://127.0.0.1:8080/users')
             .then(response => setUsers(response.data))
@@ -55,28 +56,29 @@ export default function MyGlobe() {
             })
     }, []);
 
-    const createTripCall = () => {
+    const createTrip = () => {
 
         // console.log("submit")
         // console.log(userName)
         // console.log(users)
         // console.log(users.filter(u => u.userName == userName))
-        let currUser = users.filter(u => u.userName == userName)[0];
+        console.log("userId; " + userId)
+        let currUser = users.filter(u => u.id == userId)[0];
         console.log(currUser)
 
         axios.post('http://127.0.0.1:8080/trips/create',
-            {name: tripName, description: tripDescription, userName: userName, places: []})
+            {name: tripName, description: tripDescription, userId: userId, places: []})
             .then(response => console.log(response.data))
     }
 
     useEffect(() => {
-        console.log(userName)
-    }, [tripName, userName]);
+        console.log(userId)
+    }, [tripName, userId]);
 
     return <>
         <Container>
             <Row>
-                <Form onSubmit={createTripCall}>
+                <Form onSubmit={createTrip}>
                     <Form.Group className="mb-3">
                         <Form.Label>Trip Name</Form.Label>
                         <Form.Control onChange={e => setTripName(e.target.value)}
@@ -92,10 +94,10 @@ export default function MyGlobe() {
                                       type="text"
                                       placeholder="Trip Description"/>
                     </Form.Group>
-                    <Form.Select value={userName} onChange={e => setUserName(e.target.value)}>
-                        {users.map(user => (<option>{user.userName}</option>))}
+                    <Form.Select value={userId} onChange={e => setUserId(e.target.value)}>
+                        {users.map(user => (<option>{user.id}</option>))}
                     </Form.Select>
-                    <Button onClick={createTripCall} variant="primary" type="button">
+                    <Button onClick={createTrip} variant="primary" type="button">
                         Submit
                     </Button>
                 </Form>

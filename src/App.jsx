@@ -1,12 +1,12 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'
-import User from "./user/User.tsx";
-import MyGlobe from "./globe/MyGlobe.tsx";
+import Navigation from "./navbar/Navigation.tsx";
+import {Outlet} from "react-router-dom";
 
 function App() {
     return <>
-        <User/>
-        <MyGlobe/>
+        <Navigation/>
+        <Outlet/>
     </>
 }
 

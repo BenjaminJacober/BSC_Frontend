@@ -46,44 +46,44 @@ export default function User() {
     }
 
     return (
-        <>
-            <Form onSubmit={submit}>
-                <Form.Group className="mb-3">
-                    <Form.Label>User Name</Form.Label>
-                    <Form.Control onChange={e => setUserName(e.target.value)}
-                                  value={userName}
-                                  type="text"
-                                  placeholder="User Name"
-                    />
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicEmail">
-                    <Form.Label>Email address</Form.Label>
-                    <Form.Control onChange={e => setEmail(e.target.value)}
-                                  value={email}
-                                  type="email"
-                                  placeholder="Enter email"/>
-                    <Form.Text className="text-muted">
-                        We'll never share your email with anyone else.
-                    </Form.Text>
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control onChange={e => setPassword(e.target.value)}
-                                  value={password}
-                                  type="password"
-                                  placeholder="Password"/>
-                </Form.Group>
-                <Button onClick={submit} variant="primary" type="button">
-                    Submit
-                </Button>
-            </Form>
+        <Container>
+            <Row className="my-2">
+                <Form onSubmit={submit}>
+                    <Form.Group className="mb-3">
+                        <Form.Label>User Name</Form.Label>
+                        <Form.Control onChange={e => setUserName(e.target.value)}
+                                      value={userName}
+                                      type="text"
+                                      placeholder="User Name"
+                        />
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="formBasicEmail">
+                        <Form.Label>Email address</Form.Label>
+                        <Form.Control onChange={e => setEmail(e.target.value)}
+                                      value={email}
+                                      type="email"
+                                      placeholder="Enter email"/>
+                        <Form.Text className="text-muted">
+                            We'll never share your email with anyone else.
+                        </Form.Text>
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="formBasicPassword">
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control onChange={e => setPassword(e.target.value)}
+                                      value={password}
+                                      type="password"
+                                      placeholder="Password"/>
+                    </Form.Group>
+                    <Button onClick={submit} variant="primary" type="button">
+                        Submit
+                    </Button>
+                </Form>
+            </Row>
 
-            <Container>
-                <Row>
-                    {users.map((user: User) => <UserComp key={user.id} id={user.id} userName={user.userName}
-                                                         password={""} emailAddress={user.emailAddress}/>)}
-                </Row>
-            </Container>
-        </>
+            <Row className="my-2">
+                {users.map((user: User) => <UserComp key={user.id} id={user.id} userName={user.userName}
+                                                     password={""} emailAddress={user.emailAddress}/>)}
+            </Row>
+        </Container>
     )
 }
