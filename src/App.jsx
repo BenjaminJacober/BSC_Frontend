@@ -4,10 +4,10 @@ import Navigation from "./navbar/Navigation.tsx";
 import {Outlet} from "react-router-dom";
 
 function App() {
-    return <>
-        <Navigation/>
-        <Outlet/>
-    </>
+	return <>
+		<Navigation/>
+		<Outlet/>
+	</>
 }
 
 export default App
