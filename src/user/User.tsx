@@ -4,20 +4,20 @@ import axios from "axios";
 
 export type User = {
     id: number
-    userName: string
+    username: string
     password: string
-    emailAddress: string
+    email: string
 }
 
 function UserComp(user: User) {
     return <Col>
         <Card>
             <CardHeader>
-                <h1>{user.userName}</h1>
+                <h1>{user.username}</h1>
                 <p>{user.id}</p>
             </CardHeader>
             <CardBody>
-                {user.emailAddress}
+                {user.email}
             </CardBody>
         </Card>
     </Col>
@@ -27,22 +27,24 @@ export default function User() {
 
     const [users, setUsers] = useState([])
 
-    useEffect(() => {
-
-        console.log("Fetching users at localhost:8080")
-
-        axios.get('http://127.0.0.1:8080/users')
-            .then(response => setUsers(response.data))
-    }, []);
-
-    const [userName, setUserName] = useState("");
+    const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+    function fetchUsers() {
+        axios.get('http://127.0.0.1:8080/users')
+            .then(response => setUsers(response.data))
+    }
+
+    useEffect(() => fetchUsers(), []);
+
     const submit = () => {
-        axios.post('http://127.0.0.1:8080/users/create',
-            {userName: userName, hashedPassword: password, emailAddress: email})
-            .then(response => console.log(response.data))
+        axios.post('http://127.0.0.1:8080/users/register',
+            {username: username, password: password, email: email})
+            .then(response => {
+                fetchUsers()
+                console.log(response.data);
+            })
     }
 
     return (
@@ -51,8 +53,8 @@ export default function User() {
                 <Form onSubmit={submit}>
                     <Form.Group className="mb-3">
                         <Form.Label>User Name</Form.Label>
-                        <Form.Control onChange={e => setUserName(e.target.value)}
-                                      value={userName}
+                        <Form.Control onChange={e => setUsername(e.target.value)}
+                                      value={username}
                                       type="text"
                                       placeholder="User Name"
                         />
@@ -81,8 +83,8 @@ export default function User() {
             </Row>
 
             <Row className="my-2">
-                {users.map((user: User) => <UserComp key={user.id} id={user.id} userName={user.userName}
-                                                     password={""} emailAddress={user.emailAddress}/>)}
+                {users.map((user: User) => <UserComp key={user.id} id={user.id} username={user.username}
+                                                     password={""} email={user.email}/>)}
             </Row>
         </Container>
     )
